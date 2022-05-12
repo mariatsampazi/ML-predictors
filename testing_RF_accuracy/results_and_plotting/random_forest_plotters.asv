@@ -22,8 +22,7 @@ real_Table = readtable('real_1.csv' );
 % actual labels from the dataset
 labels = readtable('labels.csv' );
 labels=table2array(labels);
-labels=transpose(labels);
-labels=labels./1000;
+
 
 % --------------table to array for the aforementioned values---------------
 %% actual throughput and time
@@ -93,8 +92,8 @@ ylabel('Number of occurences in the testing set'); xlabel('Tx brate downlink in 
 histogram(hist_real);
 
 figure(3); 
-hold on; grid on; title('Histogram for the labels - downlink throughput of the input dataset');
-ylabel('Number of occurences in the input set'); xlabel('Tx brate downlink in [Mbps] values')
+hold on; grid on; title('Histogram for the labels downlink throughput of the input dataset');
+ylabel('Number of occurences in the testing set'); xlabel('Tx brate downlink in [Mbps] values')
 histogram(labels);
 
 %% Performance metrics

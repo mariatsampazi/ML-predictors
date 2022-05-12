@@ -24,6 +24,8 @@ from sklearn.datasets import make_regression
 from sklearn.model_selection import cross_val_score, RepeatedKFold,  train_test_split
 from sklearn.ensemble import RandomForestRegressor
 import datetime
+from pprint import pprint
+from sklearn.model_selection import RandomizedSearchCV
 
 #------------------------------------------------------------------------------------
 #We set working directory and we find all the csv files in the folder.
@@ -117,15 +119,15 @@ final_data = features_metric008[all_data]
 #  Plotting timestamp vs. throughput for 10 users from the 1010123456008_metrics.csv file.
 final_data.plot('Timestamp','tx_brate downlink [Mbps]',color="red")
 plt.title("Downlink Throughput VS. Time for 10 users for the actual data of the 1010123456008_metrics.csv file.")
-plt.figure(1)
+##plt.figure(1)
 
 # Extract only top 60 rows  of the dataset included in the 1010123456008_metrics.csv file to make the plot a little clearer
 new_data = final_data.head(60)
 #  Plotting again with 60 values
 new_data.plot('Timestamp','tx_brate downlink [Mbps]',color="green")
 plt.title("Downlink Throughput VS. Time for 10 users for the 60 head values of 1010123456008_metrics.csv file dataset for the actual data.")
-plt.figure(2)
-plt.show() 
+##plt.figure(2)
+##plt.show() 
 #--------------------------------------------------------------------------------------------------------------------------------------------
 #--------------------------------------------------------------------------------------------------------------------------------------------
 #'''
@@ -166,7 +168,7 @@ print('Testing Labels Shape:', test_labels.shape)
 # ----------------------------------------------------------Random Forest Algorithm-----------------------------------------------------------------------
 # n_estimators: indicates the number of decision trees used
 #rf = RandomForestRegressor(n_estimators = 1000, random_state = 42,max_features='log2', n_jobs=-1)
-rf = RandomForestRegressor(n_estimators = 10, random_state = 42, n_jobs=-1)
+rf = RandomForestRegressor(n_estimators = 100, random_state = 42, n_jobs=-1)
 # Train the model on training data
 rf.fit(train_features, train_labels)
 
@@ -224,7 +226,7 @@ feature_importances = sorted(feature_importances, key = lambda x: x[1], reverse 
 # Print out the feature and importances 
 [print('Variable: {:20} Importance: {}'.format(*pair)) for pair in feature_importances]
 
-plt.figure(3)
+##plt.figure(3)
 plt.style.use('fivethirtyeight')
 # list of x locations for plotting
 x_values = list(range(len(importances)))
@@ -234,7 +236,7 @@ plt.bar(x_values, importances, orientation = 'vertical')
 plt.xticks(x_values, feature_list, rotation='vertical',fontsize=6)
 # Axis labels and title
 plt.ylabel('Importance'); plt.xlabel('Variable'); plt.title('Variable Importances')
-plt.show() 
+##plt.show() 
 #---------------------------------------------------------------------------------------------------------------------------------------------------------
 
 '''
@@ -324,6 +326,15 @@ df.to_csv('real_time_1.csv', index=False,header=False)
 df2 = pd.DataFrame(pred_timestamps)
 df2.to_csv('pred_time_1.csv', index=False,header=False)
 
+#print(type(labels))
+#plt.figure(4)
+#plt.hist(labels)
+#plt.show()
+
+df3 = pd.DataFrame(labels)
+df3.to_csv('labels.csv', index=False,header=False)
+
+
 '''
 features=features/1000
 predictions=predictions/1000
@@ -331,11 +342,16 @@ test_labels=test_labels/1000
 print('Mean Squared Error:', metrics.mean_squared_error(test_labels, predictions))
 '''
 
+# Uncomment for debugging purposes
 #print(real[0]/1000)
 #print(test_labels[0]/1000)
 #print(predictions[0]/1000)
+
+
+## Random Search with Cross Validation
+#print('Parameters currently in use:\n')
+#pprint(rf.get_params())
+
+
 # close all plots
 plt.close('all')
-#'''
-
-#'''
