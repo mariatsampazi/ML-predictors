@@ -4,3 +4,5 @@
 2. RF_dataset_extension: contains the files for the extension procedure.
 3. papers: contains some useful papers.
 4. archive: contains the original versions.
+
+To check: https://github.com/kdgutier/esrnn_torch
